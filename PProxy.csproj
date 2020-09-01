@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="mongodb.driver" Version="2.11.1" />
+    <PackageReference Include="newtonsoft.json" Version="12.0.3" />
+    <Content Include="cmd.json">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+    <PackageReference Include="restsharp" Version="106.11.4" />
+  </ItemGroup>
+
+</Project>

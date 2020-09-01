@@ -1,0 +1,191 @@
+
+    [
+        {
+            "Cmd_name":"ipmitool",
+            "Cmd_EXEFile":"/bin/ipmitool",
+            "Cmd_type":"",
+            "Cmd_Args":" -c  lan print 1 ",
+            "Cmd_Description":"",
+            "Filed_List":null,
+            "Res_RAW_List":null
+        },
+        {
+            "Cmd_name":"ipmitool",
+            "Cmd_EXEFile":"/bin/ipmitool",          
+            "Cmd_Args":" -c mc info ",
+            "Cmd_type":"",
+            "Cmd_Description":"",
+            "Filed_List":null,
+            "Res_RAW_List":null
+        }
+        ,
+        {
+            "Cmd_name":"ipmitool",
+            "Cmd_EXEFile":"/bin/ipmitool",          
+            "Cmd_Args":" -c fru ",
+            "Cmd_type":"",
+            "Cmd_Description":"",
+            "Filed_List":null,
+            "Res_RAW_List":null
+        },
+        {
+            "Cmd_name":"ipmitool",
+            "Cmd_EXEFile":"/bin/ipmitool",          
+            "Cmd_Args":" -c dcmi power reading ",
+            "Cmd_type":"",
+            "Cmd_Description":"",
+            "Filed_List":null,
+            "Res_RAW_List":null
+        }
+        ,
+        {
+            "Cmd_name":"ipmitool",
+            "Cmd_EXEFile":"/bin/ipmitool",          
+            "Cmd_Args":" -c sdr ",
+            "Cmd_type":"",
+            "Cmd_Description":"",
+            "Filed_List":null,
+            "Res_RAW_List":null
+        }
+        ,
+        {
+            "Cmd_name":"dmidecode",
+            "Cmd_EXEFile":"/sbin/dmidecode",          
+            "Cmd_Args":" -t BIOS ",
+            "Cmd_type":"",
+            "Cmd_Description":"",
+            "Filed_List":null,
+            "Res_RAW_List":null
+        }
+        ,
+        {
+            "Cmd_name":"dmidecode",
+            "Cmd_EXEFile":"/sbin/dmidecode",          
+            "Cmd_Args":" -t system ",
+            "Cmd_type":"",
+            "Cmd_Description":"",
+            "Filed_List":null,
+            "Res_RAW_List":null
+        } ,
+        {
+            "Cmd_name":"dmidecode",
+            "Cmd_EXEFile":"/sbin/dmidecode",          
+            "Cmd_Args":" -t baseboard ",
+            "Cmd_type":"",
+            "Cmd_Description":"",
+            "Filed_List":null,
+            "Res_RAW_List":null
+        } ,
+        {
+            "Cmd_name":"dmidecode",
+            "Cmd_EXEFile":"/sbin/dmidecode",          
+            "Cmd_Args":" -t processor ",
+            "Cmd_type":"",
+            "Cmd_Description":"",
+            "Filed_List":null,
+            "Res_RAW_List":null
+        } ,
+        {
+            "Cmd_name":"dmidecode",
+            "Cmd_EXEFile":"/sbin/dmidecode",          
+            "Cmd_Args":" -t memory ",
+            "Cmd_type":"",
+            "Cmd_Description":"",
+            "Filed_List":null,
+            "Res_RAW_List":null
+        } ,
+        {
+            "Cmd_name":"dmidecode",
+            "Cmd_EXEFile":"/sbin/dmidecode",          
+            "Cmd_Args":" -t slot ",
+            "Cmd_type":"",
+            "Cmd_Description":"",
+            "Filed_List":null,
+            "Res_RAW_List":null
+        }
+        ,
+        {
+            "Cmd_name":"dmidecode",
+            "Cmd_EXEFile":"/sbin/dmidecode",          
+            "Cmd_Args":"  ",
+            "Cmd_type":"",
+            "Cmd_Description":"",
+            "Filed_List":null,
+            "Res_RAW_List":null
+        } ,
+        {
+            "Cmd_name":"lspci",
+            "Cmd_EXEFile":"/bin/lspci",          
+            "Cmd_Args":"  ",
+            "Cmd_type":"",
+            "Cmd_Description":"",
+            "Filed_List":null,
+            "Res_RAW_List":null
+        }
+        ,
+        {
+            "Cmd_name":"bash",
+            "Cmd_EXEFile":"/bin/bash",          
+            "Cmd_Args":" -c ifconfig ",
+            "Cmd_type":"",
+            "Cmd_Description":"",
+            "Filed_List":null,
+            "Res_RAW_List":null
+        } ,
+        {
+            "Cmd_name":"nvidia-smi",
+            "Cmd_EXEFile":"/bin/nvidia-smi",          
+            "Cmd_Args":" -i 0 -q ",
+            "Cmd_type":"",
+            "Cmd_Description":"",
+            "Filed_List":null,
+            "Res_RAW_List":null
+        } ,
+        {
+            "Cmd_name":"smartctl",
+            "Cmd_EXEFile":"/sbin/smartctl",          
+            "Cmd_Args":" -a /dev/sda ",
+            "Cmd_type":"",
+            "Cmd_Description":"",
+            "Filed_List":null,
+            "Res_RAW_List":null
+        } ,
+        {
+            "Cmd_name":"nvme",
+            "Cmd_EXEFile":"/sbin/nvme",          
+            "Cmd_Args":" smart-log /dev/nvme0 ",
+            "Cmd_type":"",
+            "Cmd_Description":"",
+            "Filed_List":null,
+            "Res_RAW_List":null
+        } ,
+        {
+            "Cmd_name":"storcli",
+            "Cmd_EXEFile":"/local/sbin/storcli",          
+            "Cmd_Args":" /c0 show ",
+            "Cmd_type":"",
+            "Cmd_Description":"",
+            "Filed_List":null,
+            "Res_RAW_List":null
+        },
+        {
+            "Cmd_name":"storcli",
+            "Cmd_EXEFile":"/local/sbin/storcli",          
+            "Cmd_Args":" /c0/eall/sall show ",
+            "Cmd_type":"",
+            "Cmd_Description":"",
+            "Filed_List":null,
+            "Res_RAW_List":null
+        },
+        {
+            "Cmd_name":"storcli",
+            "Cmd_EXEFile":"/local/sbin/storcli",          
+            "Cmd_Args":" /c0/e252/s10 show ",
+            "Cmd_type":"",
+            "Cmd_Description":"",
+            "Filed_List":null,
+            "Res_RAW_List":null
+        }
+
+    ]
+
