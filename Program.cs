@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using Newtonsoft.Json;
+using RabbitMQ.Client;
 using RestSharp;
 
 namespace PProxy {
     class Program {
-        static void Main (string[] args) {
+        static ConnectionFactory fc = new ConnectionFactory();
+        static IConnection ic;//=fc.CreateConnection();
+                static void Main (string[] args) {
             Console.WriteLine ("Hello World!");
             // var cmd=cmd_Excution( buildcmd());
 
@@ -18,19 +22,6 @@ namespace PProxy {
             //     Console.WriteLine(item  );
             // }
 
-            var p = buildPackage ();
-            Console.WriteLine (p.Product_Name);
-            Console.WriteLine (p.Produc_SN);
-            Console.WriteLine (p.Exec_Datetime);
-            Console.WriteLine (p.cmd_List.Count);
-  //string res = Newtonsoft.Json.JsonConvert.SerializeObject (Srv_Factory ());
-         var client = new RestClient ("http://app.chinasupercloud.com:8088/support/api/ipmi");
-         client.Timeout = -1;
-         var request = new RestRequest (Method.POST);
-         request.AddHeader ("Content-Type", "application/json");
-         request.AddParameter ("application/json", p.ToJson(), ParameterType.RequestBody);
-         IRestResponse response = client.Execute (request);
-         Console.WriteLine (response.Content);
             // Console.WriteLine(p.cmd_List.ToJson());
             //     foreach (var i in p.cmd_List)
             //     {
@@ -45,8 +36,48 @@ namespace PProxy {
             //     //     }
             //     // }
             //    string str= p.ToJson();
-               //Console.WriteLine(p.ToJson());
+            //Console.WriteLine(p.ToJson());
+Build_Conn();
+            upload_Baseinfo ();
+            Console.ReadLine();
+        }
+        static void Build_Conn()
+        {
+            fc.HostName = "sqlsrv01.ezdc.gwsc";
+            fc.UserName = "jingxi";
+            fc.Password = "Developer200";
 
+            ic = fc.CreateConnection();
+        }
+        static void upload_Baseinfo () {
+            var p = buildPackage ();
+            Console.WriteLine (p.Product_Name);
+            Console.WriteLine (p.Produc_SN);
+            Console.WriteLine (p.Exec_Datetime);
+            Console.WriteLine (p.cmd_List.Count);
+            //string res = Newtonsoft.Json.JsonConvert.SerializeObject (Srv_Factory ());
+            var client = new RestClient ("http://app.chinasupercloud.com:8088/support/api/ipmi");
+            client.Timeout = -1;
+            var request = new RestRequest (Method.POST);
+            request.AddHeader ("Content-Type", "application/json");
+            request.AddParameter ("application/json", p.ToJson (), ParameterType.RequestBody);
+            IRestResponse response = client.Execute (request);
+            Console.WriteLine (response.Content);
+
+        }
+         static void EX()
+        {
+            using (var channel = ic.CreateModel())
+            {
+                channel.QueueDeclare("hello", false, false, false, null);
+                string message = "here is message...";//GetMessage(args);
+                var properties = channel.CreateBasicProperties();
+                properties.DeliveryMode = 2;
+
+                var body = Encoding.UTF8.GetBytes(message);
+                channel.BasicPublish("", "hello", properties, body);
+                Console.WriteLine(" set {0}", message);
+            }
         }
         static List<Command_obj> ReadFromJson () {
 
