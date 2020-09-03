@@ -188,7 +188,6 @@
         },{
             "Cmd_name":"stressapptest",
             "Cmd_EXEFile":"/bin/stressapptest",          
-          //  "Cmd_Args":"  ",
              "Cmd_Args":" -s 10 --pause_delay 100 --local_numa --max_errors  1 ",
             "Cmd_type":"STRESS",
             "Cmd_Description":"",
@@ -199,7 +198,6 @@
         ,{
             "Cmd_name":"iozone",
             "Cmd_EXEFile":"/bin/iozone",          
-          //  "Cmd_Args":"  ",
              "Cmd_Args":"  ",
             "Cmd_type":"STRESS",
             "Cmd_Description":"",
@@ -209,7 +207,6 @@
         }   ,{
             "Cmd_name":"ctest.sh",
             "Cmd_EXEFile":"/bin/bash",          
-          //  "Cmd_Args":"  ",
              "Cmd_Args":" ctest.sh ",
             "Cmd_type":"STRESS",
             "Cmd_Description":"",
@@ -220,7 +217,6 @@
         ,{
             "Cmd_name":"lsblk",
             "Cmd_EXEFile":"/bin/lsblk",          
-          //  "Cmd_Args":"  ",
              "Cmd_Args":"  -J ",
             "Cmd_type":"STRESS",
             "Cmd_Description":"",
@@ -231,7 +227,6 @@
         ,{
             "Cmd_name":"mkfs.xfs",
             "Cmd_EXEFile":"/sbin/mkfs.xfs",          
-          //  "Cmd_Args":"  ",
              "Cmd_Args":"  ",
             "Cmd_type":"STRESS",
             "Cmd_Description":"",
@@ -241,7 +236,7 @@
         },{
             "Cmd_name":"mount",
             "Cmd_EXEFile":"/bin/mount",          
-          //  "Cmd_Args":"  ",
+         
              "Cmd_Args":"  ",
             "Cmd_type":"STRESS",
             "Cmd_Description":"",
