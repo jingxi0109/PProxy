@@ -38,9 +38,12 @@ namespace PProxy {
             //     // }
             //    string str= p.ToJson();
             //Console.WriteLine(p.ToJson());
-            //Build_Conn();
-            //upload_Baseinfo ();
-            //Console.ReadLine();
+            Build_Conn ();
+            upload_Baseinfo ();
+
+            CPUStrees ();
+            mkdir_format_mount ();
+            Console.ReadLine ();
 
             //   foreach (var item in res)
             //   {
@@ -55,9 +58,11 @@ namespace PProxy {
             // mkdir ();
             //   FFmart();
 
-
-               mkdir_format_mount();
-
+        }
+        static void CPUStrees () {
+            var res = Command_N ("stressapptest");
+            foreach (var ss in res.Res_RAW_List)
+                Console.WriteLine (ss);
         }
         static void FFmart (string diskname) {
             var res = Command_P ("mkfs.xfs", " -f /dev/" + diskname);
@@ -80,23 +85,23 @@ namespace PProxy {
             //Command_P("mkdir"," -p /"+"abccc"+" ");
             var res = disklist ();
             if (res.Blockdevices.Count () > 1) {
-                string tm="";
-                var rr=res.Blockdevices.Where (z => z.Type == TypeEnum.Disk && z.Name != "sdc" && z.Name != "nvme0n1");
+                string tm = "";
+                var rr = res.Blockdevices.Where (z => z.Type == TypeEnum.Disk && z.Name != "sdc" && z.Name != "nvme0n1");
                 foreach (var act in rr) {
                     Directory.CreateDirectory ("test/_" + act.Name);
-                   FFmart (act.Name);
+                    FFmart (act.Name);
                     M_disk ("/dev/" + act.Name + " " + "test/_" + act.Name);
-                   tm=tm+"test/_" + act.Name+"/_tt"+act.Size+" ";
+                    tm = tm + "test/_" + act.Name + "/_tt" + act.Size + " ";
 
                 }
-                Console.WriteLine(tm);
-                IOZ(" -i 0 -i 1 -i "+rr.Count().ToString()+" -r 1024k -s 1G -t 2 -F "+tm);
+                Console.WriteLine (tm);
+                IOZ (" -i 0 -i 1 -i " + rr.Count ().ToString () + " -r 1024k -s 1G -t 2 -F " + tm);
             } else {
-                var bct=res.Blockdevices[0];
-                 Directory.CreateDirectory ("test/_" + bct.Name);
-                 //   FFmart (act.Name);
-               //     M_disk ("/dev/" + act.Name + " " + "test/_" + act.Name);
-IOZ(" -i 0 -i 1 -i 2 -r 1024k -s 1G -t 1 -F "+"test/_" + bct.Name+"/_tt"+bct.Size);
+                var bct = res.Blockdevices[0];
+                Directory.CreateDirectory ("test/_" + bct.Name);
+                //   FFmart (act.Name);
+                //     M_disk ("/dev/" + act.Name + " " + "test/_" + act.Name);
+                IOZ (" -i 0 -i 1 -i 2 -r 1024k -s 1G -t 1 -F " + "test/_" + bct.Name + "/_tt" + bct.Size);
             }
 
         }
@@ -152,7 +157,7 @@ IOZ(" -i 0 -i 1 -i 2 -r 1024k -s 1G -t 1 -F "+"test/_" + bct.Name+"/_tt"+bct.Siz
         }
         static ServerDisk disklist () {
 
-            var res = List_Command ("lsblk");
+            var res = Command_N ("lsblk");
             string s = "";
             foreach (var item in res.Res_RAW_List) {
                 s = s + item;
@@ -185,11 +190,11 @@ IOZ(" -i 0 -i 1 -i 2 -r 1024k -s 1G -t 1 -F "+"test/_" + bct.Name+"/_tt"+bct.Siz
             return serverDisk;
 
         }
-        static Command_obj List_Command (string Cmd_name) {
+        static Command_obj Command_N (string Cmd_name) {
 
             List<Command_obj> cmd_List = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Command_obj>> (File.ReadAllText (@"./cmd.json"));
 
-            var item = cmd_List.Where (z => z.Cmd_name == "lsblk").SingleOrDefault ();
+            var item = cmd_List.Where (z => z.Cmd_name == Cmd_name).SingleOrDefault ();
             //    Console.WriteLine (item.Cmd_EXEFile + " " + item.Cmd_Args);
 
             item.Res_RAW_List = cmd_Excution (item).Res_RAW_List;
