@@ -16,6 +16,7 @@
      </Content>
     <PackageReference Include="RabbitMQ.Client" Version="6.2.1" />
     <PackageReference Include="restsharp" Version="106.11.4" />
+     <RuntimeHostConfigurationOption Include="System.Globalization.Invariant" Value="true" />
   </ItemGroup>
 
 </Project>

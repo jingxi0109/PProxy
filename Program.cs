@@ -38,12 +38,13 @@ namespace PProxy {
             //     // }
             //    string str= p.ToJson();
             //Console.WriteLine(p.ToJson());
-            Build_Conn ();
-            upload_Baseinfo ();
+         //  Build_Conn ();
+             upload_Baseinfo ();
 
-            CPUStrees ();
-            mkdir_format_mount ();
-            Console.ReadLine ();
+        //    CPUStrees ();
+       //      mkdir_format_mount ();
+            // Console.ReadLine ();
+            //////......................
 
             //   foreach (var item in res)
             //   {
@@ -83,11 +84,15 @@ namespace PProxy {
         }
         static void mkdir_format_mount () {
             //Command_P("mkdir"," -p /"+"abccc"+" ");
-            var res = disklist ();
+            var res = disklist_old ();
+            Console.WriteLine(res.Blockdevices.Count());
+           
             if (res.Blockdevices.Count () > 1) {
                 string tm = "";
-                var rr = res.Blockdevices.Where (z => z.Type == TypeEnum.Disk && z.Name != "sdc" && z.Name != "nvme0n1");
+                var rr = res.Blockdevices.Where (z => z.Type == "disk" && z.Name != "sda" );
+                 Console.WriteLine(rr.Count());
                 foreach (var act in rr) {
+                    Console.WriteLine(act.Name);
                     Directory.CreateDirectory ("test/_" + act.Name);
                     FFmart (act.Name);
                     M_disk ("/dev/" + act.Name + " " + "test/_" + act.Name);
@@ -97,16 +102,19 @@ namespace PProxy {
                 Console.WriteLine (tm);
                 IOZ (" -i 0 -i 1 -i " + rr.Count ().ToString () + " -r 1024k -s 1G -t 2 -F " + tm);
             } else {
-                var bct = res.Blockdevices[0];
+                var bct = res.Blockdevices.Where(z=>z.Type=="disk"&&z.Name=="sda").SingleOrDefault();
                 Directory.CreateDirectory ("test/_" + bct.Name);
                 //   FFmart (act.Name);
                 //     M_disk ("/dev/" + act.Name + " " + "test/_" + act.Name);
                 IOZ (" -i 0 -i 1 -i 2 -r 1024k -s 1G -t 1 -F " + "test/_" + bct.Name + "/_tt" + bct.Size);
             }
 
+
+
+
         }
         static void Build_Conn () {
-            fc.HostName = "sqlsrv01.ezdc.gwsc";
+            fc.HostName = "192.168.7.12";
             fc.UserName = "jingxi";
             fc.Password = "Developer200";
 
@@ -144,8 +152,9 @@ namespace PProxy {
 
             List<Command_obj> cmd_List = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Command_obj>> (File.ReadAllText (@"./cmd.json"));
 
-            foreach (var item in cmd_List.Where (z => z.Cmd_type != "STRESS")) {
+            foreach (var item in cmd_List.Where (z => z.Cmd_type == "info")) {
                 //    Console.WriteLine (item.Cmd_EXEFile + " " + item.Cmd_Args);
+
 
                 item.Res_RAW_List = cmd_Excution (item).Res_RAW_List;
 
@@ -190,11 +199,73 @@ namespace PProxy {
             return serverDisk;
 
         }
+              static ServerDisk disklist_old () {
+
+            var res = Command_ND ("lsblk","old");
+           // string s = "";
+            ServerDisk disk=new ServerDisk(); 
+            disk.Blockdevices=new List<Blockdevice>();
+            foreach (var item in res.Res_RAW_List) {
+               var s  =  item.Split(" ",StringSplitOptions.RemoveEmptyEntries);
+                disk.Blockdevices.Add(new Blockdevice( ){
+                    Name=s[0],Size=s[3],Type=s[5]
+                    
+                });
+
+                Console.WriteLine(s[0]+"  "+s[3]+" "+s[5]);
+
+
+            }
+            foreach(var re in disk.Blockdevices)
+            {
+                Console.WriteLine(re.Type);
+            }
+         //   ServerDisk serverDisk = Newtonsoft.Json.JsonConvert.DeserializeObject<ServerDisk> (s);
+            //  Console.WriteLine (serverDisk.Blockdevices.Where (z => z.Type == TypeEnum.Disk).Count ());
+
+            // var dlist = new List<Disk_lsblk> ();
+            // res.Res_RAW_List.RemoveAt(0);
+            // foreach (var item in res.Res_RAW_List.Where(z=>z.Contains("disk"))) {
+            //     var str = item.Split (' ', StringSplitOptions.RemoveEmptyEntries);
+            //     // foreach (var st in str)
+            //     // {
+            //     // Console.WriteLine(st);
+            //     dlist.Add (new Disk_lsblk () {
+            //         Name = str[0],
+            //             MAJ_MIN = str[1],
+            //             RM = int.Parse (str[2]),
+            //             Size = str[3],//?null:"",
+            //             RO = int.Parse (str[4]),
+            //             Type = str[5],
+            //             Mount_Point = ""
+            //     }
+
+            // );
+
+            //     //  }
+            // }
+            return disk;
+
+        }
         static Command_obj Command_N (string Cmd_name) {
 
             List<Command_obj> cmd_List = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Command_obj>> (File.ReadAllText (@"./cmd.json"));
 
             var item = cmd_List.Where (z => z.Cmd_name == Cmd_name).SingleOrDefault ();
+            //    Console.WriteLine (item.Cmd_EXEFile + " " + item.Cmd_Args);
+
+            item.Res_RAW_List = cmd_Excution (item).Res_RAW_List;
+
+            //   Console.WriteLine(str);
+
+            //   Console.WriteLine (cmd_List.ToJson ());
+            return item;
+        }
+            static Command_obj Command_ND (string Cmd_name,string des) {
+
+            List<Command_obj> cmd_List = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Command_obj>> (File.ReadAllText (@"./cmd.json"));
+
+            var item = cmd_List.Where (z => z.Cmd_name == Cmd_name&&z.Cmd_Description==des).SingleOrDefault ();
             //    Console.WriteLine (item.Cmd_EXEFile + " " + item.Cmd_Args);
 
             item.Res_RAW_List = cmd_Excution (item).Res_RAW_List;
@@ -243,15 +314,23 @@ namespace PProxy {
             var clist = ReadFromJson ();
             string SN = "";
             string PN = "";
+            string ip="";
+
             var res = clist.Where (z => z.Cmd_name == "dmidecode" && z.Cmd_Args == " -t system ").SingleOrDefault ();
             SN = res.Res_RAW_List.Where (z => z.Contains ("Serial Number:")).SingleOrDefault ().Split (':', StringSplitOptions.RemoveEmptyEntries).Last ();
             //Console.WriteLine(str);
             PN = res.Res_RAW_List.Where (z => z.Contains ("Product Name:")).SingleOrDefault ().Split (':', StringSplitOptions.RemoveEmptyEntries).Last ();
-
+            var res_ipmi = clist.Where (z => z.Cmd_name == "ipmitool" && z.Cmd_Args == " -c  lan print 1 ").SingleOrDefault ();
+            var sip=res_ipmi.Res_RAW_List.Where (z => z.Contains ("IP Address")&&!z.Contains("IP Address Source")).FirstOrDefault ().Split (':', StringSplitOptions.RemoveEmptyEntries).Last();
+// foreach (var p in sip)
+// {
+//     Console.Write(p+":");
+// }
             var pack = new Commnand_Pack () {
                 Exec_Datetime = DateTime.Today.ToShortDateString (),
                 Produc_SN = SN,
                 Product_Name = PN,
+                ipmi_IP=sip,
                 cmd_List = clist
 
             };

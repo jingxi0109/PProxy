@@ -79,6 +79,7 @@ namespace PProxy {
         public string Exec_Datetime { set; get; }
         public string Produc_SN { set; get; }
         public string Product_Name { set; get; }
+        public string ipmi_IP{set;get;}
 
         public List<Command_obj> cmd_List { set; get; }
     }
@@ -102,10 +103,10 @@ namespace PProxy {
         public bool Rm { get; set; }
         public string Size { get; set; }
         public bool Ro { get; set; }
-        public TypeEnum Type { get; set; }
+        public string Type { get; set; }
         public string Mountpoint { get; set; }
         public List<Blockdevice> Children { get; set; }
     }
 
-    public enum TypeEnum { Disk, Loop, Part }
+   // public enum TypeEnum { Disk, Loop, Part }
 }
