@@ -38,11 +38,11 @@ namespace PProxy {
             //     // }
             //    string str= p.ToJson();
             //Console.WriteLine(p.ToJson());
-         //  Build_Conn ();
+           Build_Conn ();
              upload_Baseinfo ();
 
-        //    CPUStrees ();
-       //      mkdir_format_mount ();
+           CPUStrees ();
+             mkdir_format_mount ();
             // Console.ReadLine ();
             //////......................
 
