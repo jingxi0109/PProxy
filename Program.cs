@@ -314,7 +314,7 @@ namespace PProxy {
             var clist = ReadFromJson ();
             string SN = "";
             string PN = "";
-            string ip="";
+           List<string> ipl=new List<string>();
 
             var res = clist.Where (z => z.Cmd_name == "dmidecode" && z.Cmd_Args == " -t system ").SingleOrDefault ();
             SN = res.Res_RAW_List.Where (z => z.Contains ("Serial Number:")).SingleOrDefault ().Split (':', StringSplitOptions.RemoveEmptyEntries).Last ();
@@ -322,6 +322,23 @@ namespace PProxy {
             PN = res.Res_RAW_List.Where (z => z.Contains ("Product Name:")).SingleOrDefault ().Split (':', StringSplitOptions.RemoveEmptyEntries).Last ();
             var res_ipmi = clist.Where (z => z.Cmd_name == "ipmitool" && z.Cmd_Args == " -c  lan print 1 ").SingleOrDefault ();
             var sip=res_ipmi.Res_RAW_List.Where (z => z.Contains ("IP Address")&&!z.Contains("IP Address Source")).FirstOrDefault ().Split (':', StringSplitOptions.RemoveEmptyEntries).Last();
+            var res_ip = clist.Where (z => z.Cmd_name == "bash" && z.Cmd_Args == " -c ifconfig ").SingleOrDefault ().Res_RAW_List;
+                var list=   res_ip.Where(z => !z.StartsWith(" ") && !z.Contains("lo"));
+                                foreach (var re in list)
+                {
+                    //    Console.WriteLine (re);
+                    int index = res_ip.IndexOf(re);
+                    var str = res_ip[index + 1];
+                    var resz = str.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                    if(resz[0]=="inet")
+                    {
+                        ipl.Add(resz[1]);
+                    }
+                  
+             //       GGG.IP.Add(res[1]);
+
+                }
+
 // foreach (var p in sip)
 // {
 //     Console.Write(p+":");
@@ -331,6 +348,7 @@ namespace PProxy {
                 Produc_SN = SN,
                 Product_Name = PN,
                 ipmi_IP=sip,
+                ip=ipl,
                 cmd_List = clist
 
             };

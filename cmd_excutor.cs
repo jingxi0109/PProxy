@@ -80,6 +80,7 @@ namespace PProxy {
         public string Produc_SN { set; get; }
         public string Product_Name { set; get; }
         public string ipmi_IP{set;get;}
+        public List<string> ip{set;get;}
 
         public List<Command_obj> cmd_List { set; get; }
     }
