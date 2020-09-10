@@ -45,6 +45,8 @@ namespace PProxy {
             upload_Baseinfo ();
 
             CPUStrees ();
+
+
             mkdir_format_mount ();
             // Console.ReadLine ();
             //////......................
@@ -64,7 +66,7 @@ namespace PProxy {
 
         }
         static void CPUStrees () {
-            var res = Command_N ("stressapptest");
+            var res = Command_P ("stressapptest");
             foreach (var ss in res.Res_RAW_List)
                 Console.WriteLine (ss);
         }
@@ -115,10 +117,10 @@ namespace PProxy {
         }
         static void Build_Conn () {
             fc.HostName = "192.168.7.12";
-            fc.UserName = "jingxi";
+            fc.UserName = "stressinfo";
             fc.Password = "Developer200";
             fc.Port = Protocols.DefaultProtocol.DefaultPort;
-            fc.ClientProvidedName = "exec_server"+GetLocalIPAddress();
+            fc.ClientProvidedName = "exec_server" + GetLocalIPAddress ();
             // ClientProvidedName = "cmd_Server"
 
             ic = fc.CreateConnection ();
@@ -191,7 +193,10 @@ namespace PProxy {
 
                 item.Res_RAW_List = cmd_Excution (item).Res_RAW_List;
 
-                //   Console.WriteLine(str);
+                foreach (var str in item.Res_RAW_List) {
+                    Console.WriteLine (str);
+                }
+                //   
 
             }
             //   Console.WriteLine (cmd_List.ToJson ());
@@ -199,42 +204,20 @@ namespace PProxy {
         }
         static ServerDisk disklist () {
 
-            var res = Command_N ("lsblk");
+            var res = Command_P ("lsblk");
             string s = "";
             foreach (var item in res.Res_RAW_List) {
                 s = s + item;
 
             }
             ServerDisk serverDisk = Newtonsoft.Json.JsonConvert.DeserializeObject<ServerDisk> (s);
-            //  Console.WriteLine (serverDisk.Blockdevices.Where (z => z.Type == TypeEnum.Disk).Count ());
-
-            // var dlist = new List<Disk_lsblk> ();
-            // res.Res_RAW_List.RemoveAt(0);
-            // foreach (var item in res.Res_RAW_List.Where(z=>z.Contains("disk"))) {
-            //     var str = item.Split (' ', StringSplitOptions.RemoveEmptyEntries);
-            //     // foreach (var st in str)
-            //     // {
-            //     // Console.WriteLine(st);
-            //     dlist.Add (new Disk_lsblk () {
-            //         Name = str[0],
-            //             MAJ_MIN = str[1],
-            //             RM = int.Parse (str[2]),
-            //             Size = str[3],//?null:"",
-            //             RO = int.Parse (str[4]),
-            //             Type = str[5],
-            //             Mount_Point = ""
-            //     }
-
-            // );
-
-            //     //  }
-            // }
+ 
             return serverDisk;
 
         }
         static ServerDisk disklist_old () {
 
-            var res = Command_ND ("lsblk", "old");
+            var res = Command_P ("lsblk","  -n " ,"old");
             // string s = "";
             ServerDisk disk = new ServerDisk ();
             disk.Blockdevices = new List<Blockdevice> ();
@@ -251,34 +234,11 @@ namespace PProxy {
             foreach (var re in disk.Blockdevices) {
                 Console.WriteLine (re.Type);
             }
-            //   ServerDisk serverDisk = Newtonsoft.Json.JsonConvert.DeserializeObject<ServerDisk> (s);
-            //  Console.WriteLine (serverDisk.Blockdevices.Where (z => z.Type == TypeEnum.Disk).Count ());
 
-            // var dlist = new List<Disk_lsblk> ();
-            // res.Res_RAW_List.RemoveAt(0);
-            // foreach (var item in res.Res_RAW_List.Where(z=>z.Contains("disk"))) {
-            //     var str = item.Split (' ', StringSplitOptions.RemoveEmptyEntries);
-            //     // foreach (var st in str)
-            //     // {
-            //     // Console.WriteLine(st);
-            //     dlist.Add (new Disk_lsblk () {
-            //         Name = str[0],
-            //             MAJ_MIN = str[1],
-            //             RM = int.Parse (str[2]),
-            //             Size = str[3],//?null:"",
-            //             RO = int.Parse (str[4]),
-            //             Type = str[5],
-            //             Mount_Point = ""
-            //     }
-
-            // );
-
-            //     //  }
-            // }
             return disk;
 
         }
-        static Command_obj Command_N (string Cmd_name) {
+        static Command_obj Command_P (string Cmd_name) {
 
             List<Command_obj> cmd_List = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Command_obj>> (File.ReadAllText (@"./cmd.json"));
 
@@ -292,11 +252,11 @@ namespace PProxy {
             //   Console.WriteLine (cmd_List.ToJson ());
             return item;
         }
-        static Command_obj Command_ND (string Cmd_name, string des) {
+        static Command_obj Command_P (string Cmd_name,string p, string des) {
 
             List<Command_obj> cmd_List = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Command_obj>> (File.ReadAllText (@"./cmd.json"));
 
-            var item = cmd_List.Where (z => z.Cmd_name == Cmd_name && z.Cmd_Description == des).SingleOrDefault ();
+            var item = cmd_List.Where (z => z.Cmd_name == Cmd_name&&z.Cmd_Args==p && z.Cmd_Description == des).SingleOrDefault ();
             //    Console.WriteLine (item.Cmd_EXEFile + " " + item.Cmd_Args);
 
             item.Res_RAW_List = cmd_Excution (item).Res_RAW_List;
@@ -306,7 +266,7 @@ namespace PProxy {
             //   Console.WriteLine (cmd_List.ToJson ());
             return item;
         }
-        static Command_obj Command_P (string Cmd_name, string P) {
+        static  Command_obj Command_P (string Cmd_name, string P) {
 
             List<Command_obj> cmd_List = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Command_obj>> (File.ReadAllText (@"./cmd.json"));
 
@@ -329,18 +289,7 @@ namespace PProxy {
 
         }
 
-        static Command_obj buildcmd () {
-            var cmd1 = new Command_obj () {
-                Cmd_name = "dmidecoe",
-                Cmd_EXEFile = "/sbin/dmidecode",
-                Cmd_Args = " -t BIOS ",
-                Cmd_Description = "Show Bios info",
-                Cmd_type = "show info"
-                //, Res_RAW_List=new System.Collections.Generic.List<string>()
 
-            };
-            return cmd1;
-        }
         static Commnand_Pack buildPackage () {
             var clist = ReadFromJson ();
             string SN = "";

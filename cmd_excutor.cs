@@ -13,36 +13,38 @@ namespace PProxy {
             string result = "";
             if (File.Exists (filenamel)) {
 
-                using (System.Diagnostics.Process proc = new System.Diagnostics.Process ()) {
-                    proc.StartInfo.FileName = filenamel; //"/bin/bash";
-                    proc.StartInfo.Arguments = "  " + command; //"-c  " + command;// + @" -a | grep -i  'inet ' ";
-                    proc.StartInfo.UseShellExecute = false;
-                    proc.StartInfo.RedirectStandardOutput = true;
-                    proc.StartInfo.RedirectStandardError = true;
-                    proc.Start ();
+                // using (System.Diagnostics.Process proc = new System.Diagnostics.Process ()) {
+                //     proc.StartInfo.FileName = filenamel; //"/bin/bash";
+                //     proc.StartInfo.Arguments = "  " + command; //"-c  " + command;// + @" -a | grep -i  'inet ' ";
+                //     proc.StartInfo.UseShellExecute = false;
+                //     proc.StartInfo.RedirectStandardOutput = true;
+                //     proc.StartInfo.RedirectStandardError = true;
+                //     proc.Start ();
 
-                    result += proc.StandardOutput.ReadToEnd ();
-                    result += proc.StandardError.ReadToEnd ();
+                //     result += proc.StandardOutput.ReadToEnd ();
+                //     result += proc.StandardError.ReadToEnd ();
 
-                    proc.WaitForExit ();
-                }
+                //     proc.WaitForExit ();
+                // }
+                result = execcmd (filenamel, command);
             } else {
                 filenamel = "/usr" + filename;
                 if (File.Exists (filenamel)) {
 
-                    using (System.Diagnostics.Process proc = new System.Diagnostics.Process ()) {
-                        proc.StartInfo.FileName = filenamel; //"/bin/bash";
-                        proc.StartInfo.Arguments = "  " + command; //"-c  " + command;// + @" -a | grep -i  'inet ' ";
-                        proc.StartInfo.UseShellExecute = false;
-                        proc.StartInfo.RedirectStandardOutput = true;
-                        proc.StartInfo.RedirectStandardError = true;
-                        proc.Start ();
+                    // using (System.Diagnostics.Process proc = new System.Diagnostics.Process ()) {
+                    //     proc.StartInfo.FileName = filenamel; //"/bin/bash";
+                    //     proc.StartInfo.Arguments = "  " + command; //"-c  " + command;// + @" -a | grep -i  'inet ' ";
+                    //     proc.StartInfo.UseShellExecute = false;
+                    //     proc.StartInfo.RedirectStandardOutput = true;
+                    //     proc.StartInfo.RedirectStandardError = true;
+                    //     proc.Start ();
 
-                        result += proc.StandardOutput.ReadToEnd ().Trim ();
-                        result += proc.StandardError.ReadToEnd ().Trim ();
+                    //     result += proc.StandardOutput.ReadToEnd ().Trim ();
+                    //     result += proc.StandardError.ReadToEnd ().Trim ();
 
-                        proc.WaitForExit ();
-                    }
+                    //     proc.WaitForExit ();
+                    // }
+                    result = execcmd (filenamel, command);
 
                 } else {
                     throw new Exception (filenamel);
@@ -57,6 +59,25 @@ namespace PProxy {
             return sslist;
 
         }
+        static string execcmd (string fname, string cmd) {
+            string res = "";
+
+            using (System.Diagnostics.Process proc = new System.Diagnostics.Process ()) {
+                proc.StartInfo.FileName = fname; //"/bin/bash";
+                proc.StartInfo.Arguments = "  " + cmd; //"-c  " + command;// + @" -a | grep -i  'inet ' ";
+                proc.StartInfo.UseShellExecute = false;
+                proc.StartInfo.RedirectStandardOutput = true;
+                proc.StartInfo.RedirectStandardError = true;
+                proc.Start ();
+
+                res += proc.StandardOutput.ReadToEnd ().Trim ();
+                res += proc.StandardError.ReadToEnd ().Trim ();
+
+                proc.WaitForExit ();
+            }
+            return res;
+        }
+
         public static void UID_ON () {
             common_cmd (" raw 0x30 0x0d", "/bin/ipmitool");
         }
@@ -79,8 +100,8 @@ namespace PProxy {
         public string Exec_Datetime { set; get; }
         public string Produc_SN { set; get; }
         public string Product_Name { set; get; }
-        public string ipmi_IP{set;get;}
-        public List<string> ip{set;get;}
+        public string ipmi_IP { set; get; }
+        public List<string> ip { set; get; }
 
         public List<Command_obj> cmd_List { set; get; }
     }
@@ -109,5 +130,5 @@ namespace PProxy {
         public List<Blockdevice> Children { get; set; }
     }
 
-   // public enum TypeEnum { Disk, Loop, Part }
+    // public enum TypeEnum { Disk, Loop, Part }
 }
