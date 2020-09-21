@@ -163,7 +163,7 @@ namespace PProxy {
             Console.WriteLine (p.Exec_Datetime);
             Console.WriteLine (p.cmd_List.Count);
             //string res = Newtonsoft.Json.JsonConvert.SerializeObject (Srv_Factory ());
-            var client = new RestClient ("http://app.chinasupercloud.com:8088/support/api/ipmi");
+            var client = new RestClient ("http://192.168.7.10:8088/support/api/ipmi");
             client.Timeout = -1;
             var request = new RestRequest (Method.POST);
             request.AddHeader ("Content-Type", "application/json");
