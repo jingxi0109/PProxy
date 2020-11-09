@@ -185,7 +185,18 @@
             "Cmd_Description":"",
             "Filed_List":null,
             "Res_RAW_List":null
-        },{
+        }
+        ,{
+            "Cmd_name":"lsblk",
+            "Cmd_EXEFile":"/bin/lsblk",          
+             "Cmd_Args":"  -n ",
+            "Cmd_type":"info",
+            "Cmd_Description":"old",
+            "Filed_List":null,
+            "Res_RAW_List":null
+
+        },
+        {
             "Cmd_name":"stressapptest",
             "Cmd_EXEFile":"/local/bin/stressapptest",          
              "Cmd_Args":" -s 10 --pause_delay 100 --local_numa --max_errors  1 ",
@@ -204,7 +215,16 @@
             "Filed_List":null,
             "Res_RAW_List":null
 
-        }   ,{
+        } ,{
+            "Cmd_name":"smartctl",
+            "Cmd_EXEFile":"/sbin/smartctl",          
+             "Cmd_Args":" -a /dev/ ",
+            "Cmd_type":"sub",
+            "Cmd_Description":"",
+            "Filed_List":null,
+            "Res_RAW_List":null
+
+        }    ,{
             "Cmd_name":"ctest.sh",
             "Cmd_EXEFile":"/bin/bash",          
              "Cmd_Args":" ctest.sh ",

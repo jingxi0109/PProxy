@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -160,6 +161,7 @@ namespace PProxy {
             var p = buildPackage ();
             Console.WriteLine (p.Product_Name);
             Console.WriteLine (p.Produc_SN);
+             Console.WriteLine (p.ipmi_IP);
             Console.WriteLine (p.Exec_Datetime);
             Console.WriteLine (p.cmd_List.Count);
             //string res = Newtonsoft.Json.JsonConvert.SerializeObject (Srv_Factory ());
@@ -194,12 +196,29 @@ namespace PProxy {
 
                 item.Res_RAW_List = cmd_Excution (item).Res_RAW_List;
 
-                foreach (var str in item.Res_RAW_List) {
-                    Console.WriteLine (str);
-                }
+                // foreach (var str in item.Res_RAW_List) {
+                //     Console.WriteLine (str);
+                // }
                 //   
 
             }
+            var disk=disklist_old();
+            foreach (var item in disk.Blockdevices.Where(z=>z.Type=="disk"))
+            {
+                var cmd=cmd_List.Where(z=>z.Cmd_type=="sub").FirstOrDefault();
+
+              //  cmd.Cmd_name="";
+                cmd.Cmd_Args=cmd.Cmd_Args+item.Name;
+
+
+
+
+
+                cmd.Res_RAW_List=cmd_Excution(cmd).Res_RAW_List;
+
+                cmd_List.Add(cmd);
+            }
+
             //   Console.WriteLine (cmd_List.ToJson ());
             return cmd_List;
         }
@@ -235,6 +254,7 @@ namespace PProxy {
             foreach (var re in disk.Blockdevices) {
                 Console.WriteLine (re.Type);
             }
+            //res.Res_RAW_List.Add()
 
             return disk;
 
