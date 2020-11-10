@@ -116,7 +116,7 @@
         {
             "Cmd_name":"lspci",
             "Cmd_EXEFile":"/sbin/lspci",          
-            "Cmd_Args":"  ",
+            "Cmd_Args":" -v ",
             "Cmd_type":"info",
             "Cmd_Description":"",
             "Filed_List":null,

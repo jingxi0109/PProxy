@@ -48,7 +48,7 @@ namespace PProxy {
             CPUStrees ();
 
 
-            mkdir_format_mount ();
+           // mkdir_format_mount ();
             // Console.ReadLine ();
             //////......................
 
@@ -202,6 +202,8 @@ namespace PProxy {
                 //   
 
             }
+
+            
             var disk=disklist_old();
             foreach (var item in disk.Blockdevices.Where(z=>z.Type=="disk"))
             {
