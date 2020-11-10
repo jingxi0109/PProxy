@@ -279,7 +279,7 @@ namespace PProxy {
 
             List<Command_obj> cmd_List = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Command_obj>> (File.ReadAllText (@"./cmd.json"));
 
-            var item = cmd_List.Where (z => z.Cmd_name == Cmd_name&&z.Cmd_Args==p && z.Cmd_Description == des).SingleOrDefault ();
+            var item = cmd_List.Where (z => z.Cmd_name == Cmd_name&&z.Cmd_Args==p && z.Cmd_Description == des).FirstOrDefault ();
             //    Console.WriteLine (item.Cmd_EXEFile + " " + item.Cmd_Args);
 
             item.Res_RAW_List = cmd_Excution (item).Res_RAW_List;
