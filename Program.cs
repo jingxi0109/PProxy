@@ -211,13 +211,15 @@ namespace PProxy {
 
               //  cmd.Cmd_name="";
                 cmd.Cmd_Args=cmd.Cmd_Args.Trim()+item.Name;
+                cmd.Cmd_type="hdd";
+
 
 
 
 
 
                 cmd.Res_RAW_List=cmd_Excution(cmd).Res_RAW_List;
-
+                System.Console.WriteLine( cmd.Cmd_Args);
                 cmd_List.Add(cmd);
             }
 
@@ -250,12 +252,12 @@ namespace PProxy {
 
                 });
 
-                Console.WriteLine (s[0] + "  " + s[3] + " " + s[5]);
+            //    Console.WriteLine (s[0] + "  " + s[3] + " " + s[5]);
 
             }
-            foreach (var re in disk.Blockdevices) {
-                Console.WriteLine (re.Type);
-            }
+            // foreach (var re in disk.Blockdevices) {
+            //     Console.WriteLine (re.Type);
+            // }
             //res.Res_RAW_List.Add()
 
             return disk;
