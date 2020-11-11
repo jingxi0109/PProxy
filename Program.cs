@@ -45,7 +45,7 @@ namespace PProxy {
             Build_Conn ();
             upload_Baseinfo ();
 
-            CPUStrees ();
+          //  CPUStrees ();
 
 
            // mkdir_format_mount ();
@@ -212,12 +212,6 @@ namespace PProxy {
               //  cmd.Cmd_name="";
                 cmd.Cmd_Args=cmd.Cmd_Args.Trim()+item.Name;
                 cmd.Cmd_type="hdd";
-
-
-
-
-
-
                 cmd.Res_RAW_List=cmd_Excution(cmd).Res_RAW_List;
                 System.Console.WriteLine( cmd.Cmd_Args);
                 cmd_List.Add(cmd);
