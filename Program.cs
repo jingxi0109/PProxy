@@ -210,7 +210,7 @@ namespace PProxy {
                 var cmd=cmd_List.Where(z=>z.Cmd_type=="sub").FirstOrDefault();
 
               //  cmd.Cmd_name="";
-                cmd.Cmd_Args=cmd.Cmd_Args+item.Name;
+                cmd.Cmd_Args=cmd.Cmd_Args.Trim()+item.Name;
 
 
 
