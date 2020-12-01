@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace PProxy {
     class Cmd_Excutor {
@@ -96,8 +98,8 @@ namespace PProxy {
         public List<string> Res_RAW_List { set; get; }
     }
     public class Commnand_Pack {
-
-        public string Exec_Datetime { set; get; }
+[BsonDateTimeOptions(Kind = DateTimeKind.Local)]
+        public DateTime Exec_Datetime { set; get; }
         public string Produc_SN { set; get; }
         public string Product_Name { set; get; }
         public string ipmi_IP { set; get; }

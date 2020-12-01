@@ -48,7 +48,7 @@ namespace PProxy
             Build_Conn();
             upload_Baseinfo();
 
-            //  CPUStrees ();
+              CPUStrees ();
 
 
             // mkdir_format_mount ();
@@ -184,9 +184,11 @@ namespace PProxy
             var client = new RestClient("http://192.168.7.10:8088/support/api/ipmi");
             client.Timeout = -1;
             var request = new RestRequest(Method.POST);
+            string s=Newtonsoft.Json.JsonConvert.SerializeObject(p);
             request.AddHeader("Content-Type", "application/json");
-            request.AddParameter("application/json", p.ToJson(), ParameterType.RequestBody);
+            request.AddParameter("application/json", s, ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
+           // System.Console.WriteLine( s);
             Console.WriteLine(response.Content);
 
 
@@ -392,7 +394,7 @@ foreach (var m in cc.Res_RAW_List)
             // }
             var pack = new Commnand_Pack()
             {
-                Exec_Datetime = DateTime.Today.ToShortDateString(),
+                Exec_Datetime = DateTime.Now,
                 Produc_SN = SN,
                 Product_Name = PN,
                 ipmi_IP = sip,
