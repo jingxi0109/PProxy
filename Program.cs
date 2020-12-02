@@ -181,14 +181,15 @@ namespace PProxy
             Console.WriteLine(p.Exec_Datetime);
             Console.WriteLine(p.cmd_List.Count);
             //string res = Newtonsoft.Json.JsonConvert.SerializeObject (Srv_Factory ());
-            var client = new RestClient("http://192.168.7.10:8088/support/api/ipmi");
+            //var client = new RestClient("http://192.168.7.10:8088/support/api/ipmi");
+              var client = new RestClient("http://192.168.7.250:88/stressapi/api/ipmi");
             client.Timeout = -1;
             var request = new RestRequest(Method.POST);
             string s=Newtonsoft.Json.JsonConvert.SerializeObject(p);
             request.AddHeader("Content-Type", "application/json");
             request.AddParameter("application/json", s, ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
-           // System.Console.WriteLine( s);
+            //System.Console.WriteLine( s);
             Console.WriteLine(response.Content);
 
 
