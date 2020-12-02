@@ -209,7 +209,7 @@
         {
             "Cmd_name":"stressapptest",
             "Cmd_EXEFile":"/local/bin/stressapptest",          
-             "Cmd_Args":" -s 36000 --pause_delay 1000000 --local_numa --max_errors  1 ",
+             "Cmd_Args":" -s 14400 --pause_delay 1000000 --local_numa --max_errors  1 ",
             "Cmd_type":"STRESS",
             "Cmd_Description":"",
             "Filed_List":null,
